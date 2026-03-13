@@ -104,9 +104,3 @@ Clicking an activity pulls up an asynchronous, highly detailed AI report on how 
 Created by Ayush
 
 
-Once you have saved this file and added your screenshots to an `images/` folder, you just need to run the standard Git commands to push the update to GitHub:
-
-```bash
-git add .
-git commit -m "Add detailed project README and screenshots"
-git push
