@@ -1,0 +1,18 @@
+/* Import Outfit (Headings) and Saira (Body) from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Saira:wght@400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #004643; /* Your deep green */
+  color: #F0EDE5; /* Your off-white */
+  font-family: 'Saira', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure all default headers use Outfit */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+}

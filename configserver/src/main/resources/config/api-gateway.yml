@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Fixed the 'fitniss' typo below!
+          jwk-set-uri: http://127.0.0.1:8181/realms/fitness-oauth2/protocol/openid-connect/certs
+
+# Routing is completely removed from here because GatewayRoutingConfig.java is handling it!
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

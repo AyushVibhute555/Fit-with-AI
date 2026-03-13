@@ -1,0 +1,13 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    # This tells Eureka: "You are the boss, do not register with yourself!"
+    register-with-eureka: false
+    # This tells Eureka: "Do not try to download a registry from another server!"
+    fetch-registry: false
