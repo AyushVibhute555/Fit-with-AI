@@ -1,6 +1,6 @@
 # 🏋️‍♂️ FitWithAI: Intelligent Fitness Tracking & Analytics
 
-![Hero Screenshot](link_to_your_hero_screenshot_here.png)
+![Hero Screenshot](https://github.com/AyushVibhute555/Fit-with-AI/blob/main/App_Photos/Home.png)
 *A premium, full-stack microservices application for logging workouts and receiving personalized, AI-driven fitness insights.*
 
 ## 📖 Overview
@@ -22,7 +22,7 @@ The application is built using a highly scalable **Spring Boot Microservices arc
 ## 🏗️ Architecture & Microservices
 The backend is completely decoupled into independent, highly cohesive services:
 
-![Architecture Workflow Diagram](link_to_your_workflow_diagram_here.png)
+![Architecture Workflow Diagram](https://github.com/AyushVibhute555/Fit-with-AI/blob/main/App_Photos/Arc.png)
 
 1. **API Gateway (`gateway`):** The single entry point for the frontend. Handles routing and enforces security/CORS.
 2. **Service Registry (`eureka`):** Netflix Eureka server running on port `8761`. Allows microservices to find and communicate with each other dynamically.
@@ -49,58 +49,122 @@ The backend is completely decoupled into independent, highly cohesive services:
 * Docker Desktop
 * A Google Gemini API Key
 
-### Step 1: Start Infrastructure (Docker)
-Start the essential infrastructure services using Docker:
 
-**RabbitMQ:**
+### Step 1: Start Required Services
+
+#### RabbitMQ
+Run RabbitMQ with the management dashboard using Docker:
+
 ```bash
 docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-Keycloak:
+```
 
-Bash
+- AMQP Port: 5672  
+- Management Dashboard: http://localhost:15672
 
-docker run -p 8181:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.0.0 start-dev
-Step 2: Configure Keycloak
-Access the Keycloak Admin Console at http://localhost:8181.
+---
 
-Create a new realm named fitness-oauth2.
+#### Keycloak
+Start the Keycloak authentication server using Docker:
 
-Create a client (e.g., oauth2-pkce-client) with standard flow enabled.
+```bash
+docker run -p 8181:8080 \
+-e KEYCLOAK_ADMIN=admin \
+-e KEYCLOAK_ADMIN_PASSWORD=admin \
+quay.io/keycloak/keycloak:26.0.0 start-dev
+```
 
-Add your frontend URL (http://localhost:5173) to Valid Redirect URIs and Web Origins.
+Keycloak Admin Console:  
+http://localhost:8181
 
-Enable "User Registration" in Realm Settings -> Login.
+---
 
-Step 3: Run the Microservices
-Crucial: Services must be started in the following order to resolve dependencies properly.
+### Step 2: Configure Keycloak
 
-Eureka Server (Wait for startup)
+1. Open the Keycloak Admin Console  
+   http://localhost:8181
 
-Config Server (Ensure it connects to Eureka)
+2. Create a new Realm  
+   fitness-oauth2
 
-API Gateway
+3. Create a Client  
+   oauth2-pkce-client
 
-User Service, Activity Service, & AI Service (Note: Ensure your java.net.preferIPv4Stack=true property is set in the AI Service if you face Gemini DNS resolution timeouts).
+4. Enable setting:
+   - Standard Flow Enabled
 
-Step 4: Run the Frontend
-Navigate to the Fit-Frontend directory, install dependencies, and start the Vite development server:
+5. Configure frontend URLs
 
-Bash
+Valid Redirect URIs:
+```
+http://localhost:5173/*
+```
 
+Web Origins:
+```
+http://localhost:5173
+```
+
+6. Enable User Registration
+
+Realm Settings → Login → Enable "User Registration"
+
+---
+
+### Step 3: Run the Microservices
+
+IMPORTANT: Start services in this order
+
+1. Eureka Server (wait until fully started)
+2. Config Server (must connect to Eureka)
+3. API Gateway
+4. User Service
+5. Activity Service
+6. AI Service
+
+If AI Service shows Gemini timeout error, add:
+
+```
+java.net.preferIPv4Stack=true
+```
+
+---
+
+### Step 4: Run the Frontend
+
+```
 cd Fit-Frontend
 npm install
 npm run dev
-📸 Application Gallery
-Landing & Registration
-Users are greeted with a premium landing page. Clicking "Register" routes directly to Keycloak's dedicated signup flow.
+```
 
-Activity Dashboard
-Users can log new workouts and view a grid of their historical activities.
+Frontend URL:
+```
+http://localhost:5173
+```
 
-AI Insights Detail Page
-Clicking an activity pulls up an asynchronous, highly detailed AI report on how to improve the workout.
+---
 
-👤 Author
+## 📸 Application Gallery
+
+### Landing & Registration
+Users see a premium landing page.  
+Clicking Register redirects to Keycloak signup page.
+
+### Activity Dashboard
+Users can:
+- Add workouts
+- View activity history
+- See activity grid
+
+### AI Insights Detail Page
+Clicking an activity shows AI report:
+- Workout improvement
+- Performance analysis
+- Suggestions
+
+---
+
+## 👤 Author
+
 Created by Ayush
-
-
